@@ -1,11 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+  <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Výpočet délky ohybu nosníku</title>
     <script src="ukol.js"></script>
-</head>
-<body>
-    
+  </head>
+  <body>
+    <h1>Výpočet délky ohybu nosníku</h1>
+    <form>
+      <label for="length">Délka nosníku (L):</label>
+      <input type="number" id="length" name="length" step="0.01" required><br>
+
+      <label for="thickness">Tloušťka nosníku (t):</label>
+      <input type="number" id="thickness" name="thickness" step="0.01" required><br>
+
+      <label for="elasticity">Materiálová konstanta (E):</label>
+      <input type="number" id="elasticity" name="elasticity" step="0.01" required><br>
+
+      <label for="inertia">Moment setrvačnosti průřezu (I):</label>
+      <input type="number" id="inertia" name="inertia" step="0.01" required><br>
+
+      <label for="force">Velikost zatížení (F):</label>
+      <input type="number" id="force" name="force" step="0.01" required><br>
+
+      <br><input type="button" value="Vypočítat délku ohybu" onclick="calculateDeflectionLength()"><br><br>
+
+      <label for="result">Délka ohybu (v):</label>
+      <input type="text" id="result" name="result" readonly><br><br>
+
+      <input type="button" value="Zkontrolovat výpočet" onclick="checkDeflectionLength()"><br><br>
+    </form>
+
+    <script>
+      function calculateDeflectionLength() {
+        const length = parseFloat(document.getElementById("length").value);
+        const thickness = parseFloat(document.getElementById("thickness").value);
+        const elasticity = parseFloat(document.getElementById("elasticity").value);
+        const inertia = parseFloat(document.getElementById("inertia").value);
+        const force = parseFloat(document.getElementById("force").value);
+
+        const deflectionLength = (force * length ** 3) / (3 * elasticity * inertia);
+        document.getElementById("result").value = deflectionLength.toFixed(2);
+      }
+
+      function checkDeflectionLength() {
+        const length = parseFloat(document.getElementById("length").value);
+        const thickness = parseFloat(document.getElementById("thickness").value);
+        const elasticity = parseFloat(document.getElementById("elasticity").value);
+        const inertia = parseFloat(document.getElementById("inertia").value);
+        const force = parseFloat(document.getElementById("force").value);
+        const result = parseFloat(document.getElementById("result").value);
+
+        const calculatedResult = (force * length ** 3) / (3 * elasticity * inertia);
+
+        if (Math.abs(result - calculatedResult) < 0.01) {
+          alert("Výpočet je správný.");
+        } else {
+          alert("Výpočet není správný. Zkontrolujte si vstupní hodnoty a zkuste to znovu.");
+        }
+      }
+    </script>
+  </body>
+</html>
